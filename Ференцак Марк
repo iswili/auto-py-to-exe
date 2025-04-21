@@ -1,0 +1,35 @@
+import keyboard
+import time
+import threading
+import pyautogui
+
+clicking = False
+
+# Тайминги в секундах (примерно под Crazy III и 165 FPS — можно править)
+timings = [
+    0.216, 0.142, 0.129, 0.163, 0.097, 0.086, 0.114, 0.125,
+    0.107, 0.115, 0.128, 0.141, 0.168, 0.139, 0.159, 0.121
+]
+
+def clicker():
+    global clicking
+    time.sleep(1.5)  # стартовая задержка перед началом (можешь поменять)
+    for delay in timings:
+        if not clicking:
+            break
+        pyautogui.press('space')
+        time.sleep(delay)
+
+def toggle_clicking():
+    global clicking
+    clicking = not clicking
+    if clicking:
+        print("Автопроход ВКЛЮЧЕН")
+        threading.Thread(target=clicker).start()
+    else:
+        print("Автопроход ВЫКЛЮЧЕН")
+
+keyboard.add_hotkey('F9', toggle_clicking)
+
+print("Готово! Нажми F9 для старта/остановки")
+keyboard.wait('esc')
